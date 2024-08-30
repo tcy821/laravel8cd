@@ -3,10 +3,10 @@ pipeline {
     stages {
         stage("Build") {
             environment {
-                DB_HOST = credentials("mysql")
-                DB_DATABASE = credentials("laravel")
-                DB_USERNAME = credentials("root")
-                DB_PASSWORD = credentials("root")
+                DB_HOST = "mysql"
+                DB_DATABASE = "laravel"
+                DB_USERNAME = "root"
+                DB_PASSWORD = 
             }
             steps {
                 sh 'docker-compose up -d'
