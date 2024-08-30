@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'docker/compose:2.29.1' // Change this to the correct version you need
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }
+    agent any
     stages {
         stage("Build") {
             environment {
@@ -14,7 +9,7 @@ pipeline {
                 DB_PASSWORD = " "
             }
             steps {
-                sh 'docker-compose up -d'
+                sh '/usr/local/bin/docker-compose up -d'
                 sh 'docker-compose exec app composer install'
                 sh 'docker-compose exec app php artisan key:generate'
                 sh 'docker-compose exec app php artisan migrate'
