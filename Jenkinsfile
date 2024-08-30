@@ -9,16 +9,10 @@ pipeline {
                 DB_PASSWORD = credentials("root")
             }
             steps {
-                sh 'composer install'
-                sh 'composer --version'
-                sh 'cp .env.example .env'
-                sh 'echo DB_HOST=${DB_HOST} >> .env'
-                sh 'echo DB_USERNAME=${DB_USERNAME} >> .env'
-                sh 'echo DB_DATABASE=${DB_DATABASE} >> .env'
-                sh 'echo DB_PASSWORD=${DB_PASSWORD} >> .env'
-                sh 'php artisan key:generate'
-                sh 'cp .env .env.testing'
-                sh 'php artisan migrate'
+                sh 'docker-compose up -d'
+                sh 'docker-compose exec app composer install'
+                sh 'docker-compose exec app php artisan key:generate'
+                sh 'docker-compose exec app php artisan migrate'
             }
         }
         stage("Unit test") {
