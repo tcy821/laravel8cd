@@ -6,7 +6,7 @@ pipeline {
                 DB_HOST = "mysql"
                 DB_DATABASE = "laravel"
                 DB_USERNAME = "root"
-                DB_PASSWORD = 
+                DB_PASSWORD = " "
             }
             steps {
                 sh 'docker-compose up -d'
