@@ -1,19 +1,39 @@
-FROM php:7.4-apache
-RUN apt-get update -y && apt-get install -y openssl zip unzip git 
-RUN docker-php-ext-install pdo_mysql
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-COPY . /var/www/html
-COPY ./public/.htaccess /var/www/html/.htaccess
-WORKDIR /var/www/html
-RUN composer install \
-    --ignore-platform-reqs \
-    --no-interaction \
-    --no-plugins \
-    --no-scripts \
-    --prefer-dist
+# Use the official PHP image with FPM
+FROM php:7.4-fpm
 
-RUN php artisan key:generate
-RUN php artisan migrate
-RUN chmod -R 777 storage
-RUN a2enmod rewrite
-RUN service apache2 restart
+# Set working directory
+WORKDIR /var/www/html
+
+# Install system dependencies and PHP extensions
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    zip \
+    unzip \
+    git \
+    curl \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo_mysql gd
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Copy existing application directory contents
+COPY . /var/www/html
+
+# Install PHP dependencies using Composer
+RUN composer install --no-dev --optimize-autoloader
+
+# Generate application key
+RUN php artisan key:generate --no-interaction
+
+# Set permissions for Laravel
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html/storage \
+    && chmod -R 755 /var/www/html/bootstrap/cache
+
+# Expose port 9000 for PHP-FPM
+EXPOSE 9000
+
+CMD ["php-fpm"]
