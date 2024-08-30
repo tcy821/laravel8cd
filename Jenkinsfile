@@ -17,22 +17,22 @@ pipeline {
         }
         stage("Unit test") {
             steps {
-                sh 'php artisan test'
+                sh 'docker-compose exec app php artisan test'
             }
         }
         stage("Code coverage") {
             steps {
-                sh "vendor/bin/phpunit --coverage-html 'reports/coverage'"
+                sh "docker-compose exec app vendor/bin/phpunit --coverage-html 'reports/coverage'"
             }
         }
         stage("Static code analysis larastan") {
             steps {
-                sh "vendor/bin/phpstan analyse --memory-limit=2G"
+                sh "docker-compose exec app vendor/bin/phpstan analyse --memory-limit=2G"
             }
         }
         stage("Static code analysis phpcs") {
             steps {
-                sh "vendor/bin/phpcs"
+                sh "docker-compose exec app vendor/bin/phpcs"
             }
         }
         stage("Docker build") {
@@ -63,7 +63,7 @@ pipeline {
         }
         stage("Acceptance test codeception") {
             steps {
-                sh "vendor/bin/codecept run"
+                sh "docker-compose exec app vendor/bin/codecept run"
             }
             post {
                 always {
