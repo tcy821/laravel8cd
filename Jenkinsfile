@@ -1,18 +1,14 @@
 pipeline {
-    agent {
-        image 'php:7.4-cli' // Use a PHP image from Docker Hub
-        args '-v /var/jenkins_home/workspace:/workspace' // Mount the workspace
-    }
+    agent any
     stages {
         stage("Build") {
             environment {
-                DB_HOST = 'mysql'
-                DB_DATABASE = 'laravel'
-                DB_USERNAME = 'root'
-                DB_PASSWORD = 'root'
+                DB_HOST = credentials("mysql")
+                DB_DATABASE = credentials("laravel")
+                DB_USERNAME = credentials("root")
+                DB_PASSWORD = credentials("root")
             }
             steps {
-                sh 'php --version'
                 sh 'composer install'
                 sh 'composer --version'
                 sh 'cp .env.example .env'
