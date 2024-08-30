@@ -1,5 +1,8 @@
 pipeline {
-    agent any
+    agent {
+        image 'php:7.4-cli' // Use a PHP image from Docker Hub
+        args '-v /var/jenkins_home/workspace:/workspace' // Mount the workspace
+    }
     stages {
         stage("Build") {
             environment {
