@@ -9,29 +9,29 @@ pipeline {
                 DB_PASSWORD = " "
             }
             steps {
-                sh 'docker exec laravel-app composer install'
-                sh 'docker exec laravel-app php artisan key:generate'
-                sh 'docker exec laravel-app php artisan migrate'
+                sh 'composer install'
+                sh 'php artisan key:generate'
+                sh 'php artisan migrate'
             }
         }
         stage("Unit test") {
             steps {
-                sh 'docker exec laravel-app php artisan test'
+                sh 'php artisan test'
             }
         }
         stage("Code coverage") {
             steps {
-                sh "docker exec laravel-app vendor/bin/phpunit --coverage-html 'reports/coverage'"
+                sh "vendor/bin/phpunit --coverage-html 'reports/coverage'"
             }
         }
         stage("Static code analysis larastan") {
             steps {
-                sh "docker exec laravel-app vendor/bin/phpstan analyse --memory-limit=2G"
+                sh "vendor/bin/phpstan analyse --memory-limit=2G"
             }
         }
         stage("Static code analysis phpcs") {
             steps {
-                sh "docker exec laravel-app vendor/bin/phpcs"
+                sh "vendor/bin/phpcs"
             }
         }
         stage("Docker build") {
@@ -62,7 +62,7 @@ pipeline {
         }
         stage("Acceptance test codeception") {
             steps {
-                sh "docker-compose exec app vendor/bin/codecept run"
+                sh "docker exec app vendor/bin/codecept run"
             }
             post {
                 always {
