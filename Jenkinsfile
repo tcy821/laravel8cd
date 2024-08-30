@@ -9,35 +9,34 @@ pipeline {
                 DB_PASSWORD = " "
             }
             steps {
-                sh '/usr/local/bin/docker-compose up -d'
-                sh 'docker-compose exec app composer install'
-                sh 'docker-compose exec app php artisan key:generate'
-                sh 'docker-compose exec app php artisan migrate'
+                sh 'docker exec laravel-app composer install'
+                sh 'docker exec laravel-app php artisan key:generate'
+                sh 'docker exec laravel-app php artisan migrate'
             }
         }
         stage("Unit test") {
             steps {
-                sh 'docker-compose exec app php artisan test'
+                sh 'docker exec laravel-app php artisan test'
             }
         }
         stage("Code coverage") {
             steps {
-                sh "docker-compose exec app vendor/bin/phpunit --coverage-html 'reports/coverage'"
+                sh "docker exec laravel-app vendor/bin/phpunit --coverage-html 'reports/coverage'"
             }
         }
         stage("Static code analysis larastan") {
             steps {
-                sh "docker-compose exec app vendor/bin/phpstan analyse --memory-limit=2G"
+                sh "docker exec laravel-app vendor/bin/phpstan analyse --memory-limit=2G"
             }
         }
         stage("Static code analysis phpcs") {
             steps {
-                sh "docker-compose exec app vendor/bin/phpcs"
+                sh "docker exec laravel-app vendor/bin/phpcs"
             }
         }
         stage("Docker build") {
             steps {
-                sh "docker build -t danielgara/laravel8cd ."
+                sh "docker build -t tanzy32/laravel8cd ."
             }
         }
         stage("Docker push") {
@@ -52,7 +51,7 @@ pipeline {
         }
         stage("Deploy to staging") {
             steps {
-                sh "docker run -d --rm -p 80:80 --name laravel8cd danielgara/laravel8cd"
+                sh "docker run -d --rm -p 80:80 --name laravel8cd tanzy32/laravel8cd"
             }
         }
         stage("Acceptance test curl") {
