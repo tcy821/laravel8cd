@@ -44,7 +44,7 @@ pipeline {
         }
         stage("Docker build") {
             steps {
-                sh "docker build -t tanzy32/laravel8cd ."
+                sh "docker build -t laravel8cd ."
             }
         }
         stage("Docker push") {
@@ -54,12 +54,12 @@ pipeline {
             }
             steps {
                 sh "docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}"
-                sh "docker push tanzy32/laravel8cd"
+                sh "docker push laravel8cd"
             }
         }
         stage("Deploy to staging") {
             steps {
-                sh "docker run -d --rm -p 80:80 --name laravel8cd tanzy32/laravel8cd"
+                sh "docker run -d --rm -p 80:80 --name laravel8cd laravel8cd"
             }
         }
         stage("Acceptance test curl") {
