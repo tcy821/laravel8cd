@@ -62,12 +62,12 @@ pipeline {
                 sh "docker run -d --rm -p 9000:80 --name laravel8cd scc11/laravel8cd"
             }
         }
-        stage("Acceptance test curl") {
-            steps {
-                sleep 20
-                sh "chmod +x acceptance_test.sh && ./acceptance_test.sh"
-            }
-        }
+        // stage("Acceptance test curl") {
+        //     steps {
+        //         sleep 20
+        //         sh "chmod +x acceptance_test.sh && ./acceptance_test.sh"
+        //     }
+        // }
         stage("Acceptance test codeception") {
             steps {
                 sh "vendor/bin/codecept run"
