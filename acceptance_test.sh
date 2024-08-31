@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Get the response body and HTTP status code from the curl command
-res=$(curl -s -w "%{http_code}" -o /tmp/response_body.txt $(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' laravel8cd)/public/sum/4/2)
+# Perform the curl request to localhost
+res=$(curl -s -w "%{http_code}" -o /tmp/response_body.txt http://localhost/sum/4/2)
 
 # Extract the response body from the temporary file
 body=$(cat /tmp/response_body.txt)
