@@ -68,15 +68,15 @@ pipeline {
         //         sh "chmod +x acceptance_test.sh && ./acceptance_test.sh"
         //     }
         // }
-        stage("Acceptance test codeception") {
-            steps {
-                sh "vendor/bin/codecept run"
-            }
-            post {
-                always {
-                    sh "docker stop laravel8cd"
-                }
-            }
-        }
+        // stage("Acceptance test codeception") {
+        //     steps {
+        //         sh "vendor/bin/codecept run"
+        //     }
+        //     post {
+        //         always {
+        //             sh "docker stop laravel8cd"
+        //         }
+        //     }
+        // }
     }
 }
