@@ -20,7 +20,7 @@ services:
     environment:
       MYSQL_DATABASE: laravel
       MYSQL_USER: root
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD:
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
@@ -39,7 +39,9 @@ services:
       - laravel_network
 
   jenkins:
-    image: jenkins/jenkins:lts
+    build:
+      context: .
+      dockerfile: Dockerfile.jenkins # Specify the new Dockerfile for Jenkins
     container_name: jenkins
     restart: unless-stopped
     user: root

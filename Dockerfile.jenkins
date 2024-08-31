@@ -1,0 +1,45 @@
+# Start with the official Jenkins image as the base
+FROM jenkins/jenkins:lts
+
+# Switch to the root user to install dependencies
+USER root
+
+RUN apt-get update && apt-get install -y \
+    lsb-release \
+    apt-transport-https \
+    ca-certificates \
+    wget \
+    software-properties-common \
+    curl \
+    git \
+    unzip \
+    && wget -q https://packages.sury.org/php/apt.gpg -O- | apt-key add - \
+    && echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list \
+    && apt-get update && apt-get install -y \
+    php7.4 \
+    php7.4-cli \
+    php7.4-fpm \
+    php7.4-mysql \
+    php7.4-zip \
+    php7.4-gd \
+    php7.4-mbstring \
+    php7.4-xml \
+    php7.4-curl \
+    mariadb-client \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Set Jenkins home environment variable
+ENV JENKINS_HOME=/var/jenkins_home
+
+# Manually install Jenkins plugins
+RUN jenkins-plugin-cli --plugins git workflow-aggregator
+
+# Switch back to the Jenkins user
+USER jenkins
+
+# Expose the necessary ports
+EXPOSE 8080 50000
+
+# Start Jenkins
+CMD ["/usr/bin/tini", "--", "/usr/local/bin/jenkins.sh"]
