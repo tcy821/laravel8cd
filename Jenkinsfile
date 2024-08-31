@@ -44,7 +44,7 @@ pipeline {
         }
         stage("Docker build") {
             steps {
-                sh "docker build -t scc11/laravel8cd ."
+                sh "docker build -t scc11/laravel8cd1 ."
             }
         }
         stage("Docker push") {
@@ -54,12 +54,12 @@ pipeline {
             }
             steps {
                 sh "docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}"
-                sh "docker push scc11/laravel8cd"
+                sh "docker push scc11/laravel8cd1"
             }
         }
         stage("Deploy to staging") {
             steps {
-                sh "docker run -d --rm -p 9000:80 --name laravel8cd scc11/laravel8cd"
+                sh "docker run -d --rm -p 9000:9000 --name laravel8cd scc11/laravel8cd1"
             }
         }
         stage("Acceptance test curl") {
