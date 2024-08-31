@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     zip \
     unzip \
+    sudo \
     git \
     curl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
