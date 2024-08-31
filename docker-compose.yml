@@ -18,9 +18,9 @@ services:
     container_name: mysql
     restart: unless-stopped
     environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_DATABASE: laravel
-      MYSQL_USER: root
-      MYSQL_ROOT_PASSWORD:
+      MYSQL_ROOT_PASSWORD: ""
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
@@ -41,7 +41,7 @@ services:
   jenkins:
     build:
       context: .
-      dockerfile: Dockerfile.jenkins # Specify the new Dockerfile for Jenkins
+      dockerfile: Dockerfile.jenkins 
     container_name: jenkins
     restart: unless-stopped
     user: root
