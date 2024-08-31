@@ -42,26 +42,26 @@ pipeline {
                 sh "vendor/bin/phpcs"
             }
         }
-        // stage("Docker build") {
-        //     steps {
-        //         sh "docker build -t tanzy32/laravel8cd ."
-        //     }
-        // }
-        // stage("Docker push") {
-        //     environment {
-        //         DOCKER_USERNAME = credentials("docker-user")
-        //         DOCKER_PASSWORD = credentials("docker-password")
-        //     }
-        //     steps {
-        //         sh "docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}"
-        //         sh "docker push danielgara/laravel8cd"
-        //     }
-        // }
-        // stage("Deploy to staging") {
-        //     steps {
-        //         sh "docker run -d --rm -p 80:80 --name laravel8cd tanzy32/laravel8cd"
-        //     }
-        // }
+        stage("Docker build") {
+            steps {
+                sh "docker build -t laravel8cd ."
+            }
+        }
+        stage("Docker push") {
+            environment {
+                DOCKER_USERNAME = credentials("scc11")
+                DOCKER_PASSWORD = credentials("@SCCassign2")
+            }
+            steps {
+                sh "docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}"
+                sh "docker push laravel8cd"
+            }
+        }
+        stage("Deploy to staging") {
+            steps {
+                sh "docker run -d --rm -p 80:80 --name laravel8cd laravel8cd"
+            }
+        }
         stage("Acceptance test curl") {
             steps {
                 sleep 20
