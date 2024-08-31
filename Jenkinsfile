@@ -49,8 +49,8 @@ pipeline {
         }
         stage("Docker push") {
             environment {
-                DOCKER_USERNAME = credentials("zhiyangtan2107@gmail.com")
-                DOCKER_PASSWORD = credentials("tanzyICA40")
+                DOCKER_USERNAME = credentials("scc11")
+                DOCKER_PASSWORD = credentials("@SCCassign2")
             }
             steps {
                 sh "docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}"
