@@ -8,6 +8,6 @@ actor: AcceptanceTester
 modules:
     enabled:
         - PhpBrowser:
-            url: http://172.17.0.3/public/
+            url: http://localhost
         - \Helper\Acceptance
 step_decorators: ~        

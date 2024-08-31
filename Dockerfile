@@ -25,6 +25,9 @@ COPY . /var/www/html
 # Install PHP dependencies using Composer
 RUN composer install --no-dev --optimize-autoloader
 
+# Install Codeception
+RUN composer require --dev codeception/codeception
+
 # Generate application key
 RUN php artisan key:generate --no-interaction
 
