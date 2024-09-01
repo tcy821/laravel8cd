@@ -27,7 +27,7 @@
                 </style>
             </head>
             <body>
-                <h1>JUnit Test Report</h1>
+                <h1>PHPUnit Test Report</h1>
                 <table>
                     <tr>
                         <th>Test Suite</th>
