@@ -62,6 +62,11 @@ pipeline {
             steps {
                 sh "docker run -d --rm -p 9000:80 --name laravel8cd scc11/laravel8cd"
             }
+            post {
+                always {
+                    sh "docker stop laravel8cd"
+                }
+            }
         }
         // stage("Acceptance test curl") {
         //     steps {
