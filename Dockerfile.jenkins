@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
     git \
     unzip \
     sudo \
+    xsltproc \
     && wget -q https://packages.sury.org/php/apt.gpg -O- | apt-key add - \
     && echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list \
     && apt-get update && apt-get install -y \
@@ -44,6 +45,9 @@ RUN composer global require "codeception/codeception"
 RUN echo "zend_extension=xdebug.so" > /etc/php/7.4/cli/conf.d/20-xdebug.ini \
     && echo "xdebug.mode=coverage" >> /etc/php/7.4/cli/conf.d/20-xdebug.ini \
     && echo "xdebug.start_with_request=yes" >> /etc/php/7.4/cli/conf.d/20-xdebug.ini
+
+# Copy the XSLT stylesheet into the Docker image
+COPY junit-to-html.xsl /usr/local/bin/junit-to-html.xsl
 
 # Set Jenkins home environment variable
 ENV JENKINS_HOME=/var/jenkins_home

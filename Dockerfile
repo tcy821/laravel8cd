@@ -14,9 +14,11 @@ RUN apt-get update && apt-get install -y \
     sudo \
     git \
     curl \
-    xdebug \
+    xsltproc \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo_mysql gd
+    && docker-php-ext-install pdo_mysql gd \
+    && pecl install xdebug-2.9.1 \
+    && docker-php-ext-enable xdebug
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -30,10 +32,14 @@ RUN composer install --no-dev --optimize-autoloader
 # Install Codeception
 RUN composer require --dev codeception/codeception
 
-# Configure Xdebug for code coverage directly in Dockerfile
-RUN echo "zend_extension=xdebug.so" > /etc/php/7.4/cli/conf.d/20-xdebug.ini \
-    && echo "xdebug.mode=coverage" >> /etc/php/7.4/cli/conf.d/20-xdebug.ini \
-    && echo "xdebug.start_with_request=yes" >> /etc/php/7.4/cli/conf.d/20-xdebug.ini
+# Configure Xdebug for code coverage
+RUN mkdir -p /usr/local/etc/php/conf.d/ \
+    && echo "zend_extension=xdebug.so" > /usr/local/etc/php/conf.d/20-xdebug.ini \
+    && echo "xdebug.mode=coverage" >> /usr/local/etc/php/conf.d/20-xdebug.ini \
+    && echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/20-xdebug.ini
+
+# Copy the XSL stylesheet for XML to HTML conversion
+COPY junit-to-html.xsl /var/www/html/
 
 # Generate application key
 RUN php artisan key:generate --no-interaction
