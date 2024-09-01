@@ -47,7 +47,7 @@ RUN echo "zend_extension=xdebug.so" > /etc/php/7.4/cli/conf.d/20-xdebug.ini \
     && echo "xdebug.start_with_request=yes" >> /etc/php/7.4/cli/conf.d/20-xdebug.ini
 
 # Copy the XSLT stylesheet into the Docker image
-#COPY phpunit-to-html.xsl /var/www/html/
+COPY phpunit-to-html.xsl /var/www/html/
 
 # Set Jenkins home environment variable
 ENV JENKINS_HOME=/var/jenkins_home
