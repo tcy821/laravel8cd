@@ -24,7 +24,7 @@ pipeline {
         }
         stage("Unit test") {
             steps {
-                sh 'php artisan test'
+                sh 'php artisan test --log-junit tests/report.xml'
             }
         }
         stage("Code coverage") {
