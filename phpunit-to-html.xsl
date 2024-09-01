@@ -4,7 +4,7 @@
     <xsl:template match="/">
         <html>
             <head>
-                <title>JUnit Test Report</title>
+                <title>PHPUnit Test Report</title>
                 <style>
                     body {
                         font-family: Arial, sans-serif;

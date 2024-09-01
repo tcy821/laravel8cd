@@ -39,7 +39,7 @@ RUN mkdir -p /usr/local/etc/php/conf.d/ \
     && echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/20-xdebug.ini
 
 # Copy the XSL stylesheet for XML to HTML conversion
-COPY junit-to-html.xsl /var/www/html/
+COPY phpunit-to-html.xsl /var/www/html/
 
 # Generate application key
 RUN php artisan key:generate --no-interaction
