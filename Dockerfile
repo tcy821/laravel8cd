@@ -30,6 +30,11 @@ RUN composer install --no-dev --optimize-autoloader
 # Install Codeception
 RUN composer require --dev codeception/codeception
 
+# Configure Xdebug for code coverage directly in Dockerfile
+RUN echo "zend_extension=xdebug.so" > /etc/php/7.4/cli/conf.d/20-xdebug.ini \
+    && echo "xdebug.mode=coverage" >> /etc/php/7.4/cli/conf.d/20-xdebug.ini \
+    && echo "xdebug.start_with_request=yes" >> /etc/php/7.4/cli/conf.d/20-xdebug.ini
+
 # Generate application key
 RUN php artisan key:generate --no-interaction
 
