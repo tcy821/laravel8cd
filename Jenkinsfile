@@ -25,6 +25,7 @@ pipeline {
         stage("Unit test") {
             steps {
                 sh 'php artisan test --log-junit tests/report.xml'
+                sh 'xsltproc /var/www/html/junit-to-html.xsl /var/www/html/tests/report.xml > /var/www/html/tests/report.html'
             }
         }
         stage("Code coverage") {
