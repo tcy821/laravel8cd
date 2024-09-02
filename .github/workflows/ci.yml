@@ -1,13 +1,17 @@
-name: CI
+name: Laravel CI
+
 on:
   push:
-    branches: [ master ]
+    branches:
+      - main  # Adjust to your default branch
   pull_request:
-    branches: [ master ]
+    branches:
+      - main  # Adjust to your default branch
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -27,20 +31,25 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y mysql-server
         sudo service mysql start
-        mysql -e "CREATE DATABASE IF NOT EXISTS laravel;"
-        mysql -e "CREATE USER 'root'@'localhost' IDENTIFIED BY 'root';"
-        mysql -e "GRANT ALL PRIVILEGES ON laravel.* TO 'root'@'localhost';"
-        mysql -e "FLUSH PRIVILEGES;"
+
+    - name: Configure MySQL
+      run: |
+        sudo mysql -e "CREATE DATABASE IF NOT EXISTS laravel;"
+        sudo mysql -e "CREATE USER 'root'@'localhost' IDENTIFIED BY 'root';"
+        sudo mysql -e "GRANT ALL PRIVILEGES ON laravel.* TO 'root'@'localhost';"
+        sudo mysql -e "FLUSH PRIVILEGES;"
 
     - name: Copy .env.example to .env
       run: cp .env.example .env
 
     - name: Set up .env
       run: |
-        echo DB_HOST=mysql >> .env
-        echo DB_USERNAME=root >> .env
+        echo DB_CONNECTION=mysql >> .env
+        echo DB_HOST=127.0.0.1 >> .env
+        echo DB_PORT=3306 >> .env
         echo DB_DATABASE=laravel >> .env
-        echo DB_PASSWORD="" >> .env
+        echo DB_USERNAME=root >> .env
+        echo DB_PASSWORD=root >> .env
 
     - name: Generate Laravel application key
       run: php artisan key:generate
@@ -74,8 +83,3 @@ jobs:
       run: |
         echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
         docker push scc11/laravel8cd
-
-    - name: Deploy Docker container
-      run: |
-        docker run -d --rm -p 9000:80 --name laravel8cd scc11/laravel8cd
-        docker stop laravel8cd
