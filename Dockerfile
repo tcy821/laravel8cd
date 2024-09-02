@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     xsltproc \
+    procps \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_mysql gd \
     && pecl install xdebug-2.9.1 \
