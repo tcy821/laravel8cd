@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="" tests="2" assertions="2" errors="0" warnings="0" failures="0" skipped="0" time="6.423650">
-    <testsuite name="Feature" tests="2" assertions="2" errors="0" warnings="0" failures="0" skipped="0" time="6.423650">
-      <testsuite name="Tests\Feature\RouteTest" file="/var/www/html/tests/Feature/RouteTest.php" tests="2" assertions="2" errors="0" warnings="0" failures="0" skipped="0" time="6.423650">
-        <testcase name="testHome" class="Tests\Feature\RouteTest" classname="Tests.Feature.RouteTest" file="/var/www/html/tests/Feature/RouteTest.php" line="11" assertions="1" time="6.145262"/>
-        <testcase name="testLogin" class="Tests\Feature\RouteTest" classname="Tests.Feature.RouteTest" file="/var/www/html/tests/Feature/RouteTest.php" line="17" assertions="1" time="0.278388"/>
+  <testsuite name="" tests="2" assertions="2" errors="0" warnings="0" failures="0" skipped="0" time="5.257855">
+    <testsuite name="Feature" tests="2" assertions="2" errors="0" warnings="0" failures="0" skipped="0" time="5.257855">
+      <testsuite name="Tests\Feature\RouteTest" file="/var/www/html/tests/Feature/RouteTest.php" tests="2" assertions="2" errors="0" warnings="0" failures="0" skipped="0" time="5.257855">
+        <testcase name="testHome" class="Tests\Feature\RouteTest" classname="Tests.Feature.RouteTest" file="/var/www/html/tests/Feature/RouteTest.php" line="11" assertions="1" time="5.023685"/>
+        <testcase name="testLogin" class="Tests\Feature\RouteTest" classname="Tests.Feature.RouteTest" file="/var/www/html/tests/Feature/RouteTest.php" line="17" assertions="1" time="0.234170"/>
       </testsuite>
     </testsuite>
   </testsuite>
