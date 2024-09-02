@@ -49,9 +49,6 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage \
     && chmod -R 755 /var/www/html/bootstrap/cache
 
-# Run migrations
-RUN php artisan migrate
-
 # Run PHPUnit and generate HTML code coverage report
 RUN vendor/bin/phpunit --coverage-html /var/www/html/reports/coverage
 
