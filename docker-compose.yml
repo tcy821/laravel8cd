@@ -12,6 +12,14 @@ services:
       - ./:/var/www/html
     networks:
       - laravel_network
+    command: >
+      sh -c "
+        php artisan key:generate --no-interaction &&
+        php artisan migrate &&
+        vendor/bin/phpunit --coverage-html /var/www/html/reports/coverage &&
+        php artisan test --log-junit /var/www/html/tests/report.xml &&
+        xsltproc /var/www/html/phpunit-to-html.xsl /var/www/html/tests/report.xml > /var/www/html/tests/report.html
+      "
 
   mysql:
     image: mysql:8.0
