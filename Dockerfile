@@ -49,6 +49,15 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage \
     && chmod -R 755 /var/www/html/bootstrap/cache
 
+# Run PHPUnit and generate HTML code coverage report
+RUN vendor/bin/phpunit --coverage-html /var/www/html/reports/coverage
+
+# Run Laravel tests and generate test report in JUnit XML format
+RUN php artisan test --log-junit /var/www/html/tests/report.xml
+
+# Convert PHPUnit XML report to HTML using XSLT
+RUN xsltproc /var/www/html/phpunit-to-html.xsl /var/www/html/tests/report.xml > /var/www/html/tests/report.html
+
 # Expose port 9000 for PHP-FPM
 EXPOSE 9000
 
