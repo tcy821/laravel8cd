@@ -1,12 +1,9 @@
-name: Laravel CI
-
+name: CI
 on:
   push:
-    branches:
-      - main  # Adjust to your default branch
+    branches: [ master ]
   pull_request:
-    branches:
-      - main  # Adjust to your default branch
+    branches: [ master ]
 
 jobs:
   build:
